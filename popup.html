@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YT Downloader ✦</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <!-- ── HEADER ── -->
+  <header class="header">
+    <div class="header-title">✦ YT Downloader ✦</div>
+    <div class="header-sub">Descarga videos en la mejor calidad disponible</div>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- ── CARD ── -->
+  <div class="card" id="mainCard">
+
+    <!-- URL -->
+    <label class="field-label">🔗 URL de YouTube</label>
+    <div class="input-row">
+      <input
+        id="urlInput"
+        type="text"
+        class="text-input"
+        placeholder="https://www.youtube.com/watch?v=..."
+        spellcheck="false"
+        autocomplete="off"
+      />
+      <button id="clearUrl" class="icon-btn" title="Limpiar">✕</button>
+      <button id="pasteUrl" class="icon-btn" title="Pegar URL actual de YouTube">📋</button>
+    </div>
+
+    <!-- FORMAT -->
+    <div class="field-label" style="margin-top:12px;">🎞 Formato</div>
+    <div class="radio-row" id="formatRow">
+      <label class="radio-label">
+        <input type="radio" name="format" value="mp4" checked /> MP4 (video)
+      </label>
+      <label class="radio-label">
+        <input type="radio" name="format" value="mp3" /> MP3 (audio)
+      </label>
+      <label class="radio-label">
+        <input type="radio" name="format" value="webm" /> WebM
+      </label>
+    </div>
+
+    <!-- QUALITY -->
+    <div class="field-label" style="margin-top:10px;">⚙ Calidad de video</div>
+    <div class="select-row">
+      <select id="qualitySelect" class="select-input">
+        <option value="best">Mejor disponible (automático)</option>
+        <option value="2160">4K (2160p)</option>
+        <option value="1440">2K (1440p)</option>
+        <option value="1080">Full HD (1080p)</option>
+        <option value="720">HD (720p)</option>
+        <option value="480">480p</option>
+        <option value="360">360p</option>
+      </select>
+    </div>
+
+    <!-- COOKIES -->
+    <div class="divider-thin"></div>
+    <div class="cookies-header">
+      <span class="field-label" style="margin:0;">🍪 Cookies (anti-bot)</span>
+      <button id="helpCookies" class="help-btn" title="Ayuda con cookies">?</button>
+    </div>
+
+    <div class="radio-row" id="cookieModeRow">
+      <label class="radio-label">
+        <input type="radio" name="cookieMode" value="browser" checked /> 🌐 Del navegador (automático)
+      </label>
+      <label class="radio-label">
+        <input type="radio" name="cookieMode" value="none" /> 🚫 Sin cookies
+      </label>
+    </div>
+
+    <!-- Cookie status indicator -->
+    <div id="cookieStatus" class="cookie-status loading">
+      <span class="cookie-dot"></span>
+      <span id="cookieStatusText">Verificando cookies de YouTube…</span>
+    </div>
+
+    <div class="divider-thin" style="margin-top:10px;"></div>
+
+    <!-- DOWNLOAD BUTTON -->
+    <button id="downloadBtn" class="download-btn">
+      <span id="downloadBtnIcon">⬇</span>
+      <span id="downloadBtnText">Descargar</span>
+    </button>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-wrap" id="progressWrap" style="display:none;">
+      <div class="progress-track">
+        <div class="progress-bar" id="progressBar" style="width:0%"></div>
+        <div class="progress-glow" id="progressGlow" style="width:0%"></div>
+      </div>
+      <div class="progress-stats" id="progressStats">Iniciando…</div>
+    </div>
+
+    <!-- STATUS -->
+    <div class="status-text" id="statusText">Pega un link de YouTube y pulsa Descargar ✦</div>
+
+  </div><!-- /card -->
+
+  <!-- ── LOG CONSOLE ── -->
+  <div class="divider" style="margin-top:8px;"></div>
+  <div class="log-header">
+    <span>📋 Consola de logs</span>
+    <button id="clearLog" class="clear-log-btn">Limpiar</button>
+  </div>
+  <div class="log-frame" id="logFrame">
+    <div class="log-box" id="logBox"></div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <div class="divider" style="margin-top:8px;"></div>
+  <footer class="footer">
+    <span>made by @p0u</span>
+    <span id="hostStatus" class="host-badge checking">⚙ verificando host…</span>
+  </footer>
+
+  <!-- ── HELP MODAL ── -->
+  <div id="helpModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <div class="modal-title">🍪 ¿Cómo funcionan las cookies?</div>
+      <p class="modal-text">
+        Esta extensión lee automáticamente las cookies de YouTube de tu navegador Chrome 
+        y las pasa a <code>yt-dlp</code> a través del host nativo. No necesitas exportar 
+        nada manualmente.
+      </p>
+      <div class="modal-steps">
+        <div class="step-row">
+          <span class="step-num">1</span>
+          <div>
+            <div class="step-title">Instala el host nativo</div>
+            <div class="step-desc">Ejecuta <code>install_host.bat</code> que está en la carpeta de la extensión.</div>
+          </div>
+        </div>
+        <div class="step-row">
+          <span class="step-num">2</span>
+          <div>
+            <div class="step-title">Inicia sesión en YouTube</div>
+            <div class="step-desc">Asegúrate de estar logueado en youtube.com en este navegador.</div>
+          </div>
+        </div>
+        <div class="step-row">
+          <span class="step-num">3</span>
+          <div>
+            <div class="step-title">Descarga directamente</div>
+            <div class="step-desc">La extensión captura las cookies automáticamente en cada descarga.</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button id="helpClose" class="btn-accent">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

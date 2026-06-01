@@ -1,0 +1,24 @@
+# Archivos temporales
+*.tmp
+*.temp
+
+# Carpeta de descargas de prueba
+test_video.mp4
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Archivos de entorno virtual (si usas uno)
+venv/
+env/
+.venv/
+.env
