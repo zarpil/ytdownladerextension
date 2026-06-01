@@ -2,6 +2,8 @@
 
 **Descarga videos y audios de YouTube directamente desde el navegador, usando las cookies de tu sesión activa.**
 
+![Captura de pantalla de la extensión](https://i.imgur.com/ahZf560.png)
+
 ---
 
 ## ✨ Características
